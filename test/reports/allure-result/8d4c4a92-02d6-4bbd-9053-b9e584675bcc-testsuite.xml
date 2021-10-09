@@ -1,0 +1,39 @@
+<?xml version='1.0'?>
+<ns2:test-suite xmlns:ns2='urn:model.allure.qatools.yandex.ru' start='1633796512530' stop='1633796520215'>
+    <name>Verification of opening two new accounts for both account types - CHECKING and SAVINGS</name>
+    <title>Verification of opening two new accounts for both account types - CHECKING and SAVINGS</title>
+    <test-cases>
+        <test-case start='1633796512530' status='passed' stop='1633796520201'>
+            <name>user should login with valid credentials</name>
+            <title>user should login with valid credentials</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-0'/>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-0'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-94.0.4606.71'/>
+                <parameter kind='argument' name='browser' value='chrome-94.0.4606.71'/>
+            </parameters>
+            <steps/>
+            <attachments/>
+        </test-case>
+        <test-case start='1633796520201' status='passed' stop='1633796520215'>
+            <name>user should see a welcome message with a name</name>
+            <title>user should see a welcome message with a name</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-0'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-94.0.4606.71'/>
+            </parameters>
+            <steps/>
+            <attachments/>
+        </test-case>
+    </test-cases>
+</ns2:test-suite>
