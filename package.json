@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx wdio run wdio.conf.js",
+    "test": "npx wdio run ./test/config/wdio.conf.js",
     "report:generate": "npx allure generate --clean ./test/reports/allure-result/ -o ./test/reports/allure-report",
     "report:open": "npx allure open ./test/reports/allure-report"
   },
@@ -28,6 +28,8 @@
     "@wdio/spec-reporter": "^7.14.1",
     "allure-commandline": "^2.13.8",
     "chromedriver": "^94.0.0",
+    "fs-extra": "^10.0.0",
+    "js-yaml": "^4.1.0",
     "wdio-chromedriver-service": "^7.2.2",
     "wdio-image-comparison-service": "^3.0.0",
     "wdio-novus-visual-regression-service": "^1.2.5"

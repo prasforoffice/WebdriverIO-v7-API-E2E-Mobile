@@ -1,6 +1,11 @@
 const LoginPage = require('../pageobjects/loginPage');
 const AccountOverviewPage = require('../pageobjects/accountOverviewPage');
 const Labels = require('../constants/pageLabels.js');
+const Yaml = require('js-yaml');
+const Fs = require('fs');
+
+
+const TestData = Yaml.load(Fs.readFileSync('./test/testData/userInputs.yml')); //To read the test data yaml file
 
 describe('Verification of opening two new accounts for both account types - CHECKING and SAVINGS', () => {
 
@@ -8,18 +13,15 @@ describe('Verification of opening two new accounts for both account types - CHEC
         await LoginPage.open();
     });
 
-    it('user should login with valid credentials', async () => {
+    it('Verify user can login with valid credentials', async () => {
+        let loginData = TestData['LoginData'];
         await LoginPage.open();
-        await LoginPage.login('john', 'demo');
+        await LoginPage.login(loginData.username,loginData.password);
         await expect(AccountOverviewPage.welcomeText).toBeExisting();
-        // await console.log("WELCOME = " + AccountOverviewPage.getWelcomeText());
-        await expect(AccountOverviewPage.welcomeText).toHaveTextContaining('Welcome');
     });
 
-    it('user should see a welcome message with a name', async () => {
-        // await expect(AccountOverviewPage.welcomeText).toHaveTextContaining('Welcome John Smith');
+    it('Verify user sees a welcome message with a full name', async () => {
         await expect(AccountOverviewPage.welcomeText).toHaveTextContaining(Labels.WELCOME_TEXT);
-
     });
 
 });
