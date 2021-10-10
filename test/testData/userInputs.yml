@@ -1,3 +1,11 @@
 LoginData:
   username: "john"
   password: "demo"
+
+FirstAccountData:
+  type: "CHECKING"
+  fromAccount: "13344"
+
+SecondAccountData:
+  type: "SAVINGS"
+  fromAccount: "13233"
