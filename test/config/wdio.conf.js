@@ -51,7 +51,7 @@ exports.config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [{
-    
+
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
@@ -111,8 +111,8 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver','firefox-profile','image-comparison'],
-    
+    services: ['chromedriver', 'firefox-profile', 'image-comparison'],
+
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: https://webdriver.io/docs/frameworks
@@ -146,13 +146,13 @@ exports.config = {
     ],
 
 
-    
+
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000
+        timeout: process.env.DEBUG === 'true' ? 999999 : 60000
     },
     //
     // =====
@@ -232,8 +232,12 @@ exports.config = {
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */
-    afterTest: async function(test, context, { error, result, duration, passed, retries }) {
+    afterTest: async function (test, context, { error, result, duration, passed, retries }) {
         if (!passed) {
+            await browser.takeScreenshot();
+        }
+
+        if (passed) {
             await browser.takeScreenshot();
         }
     },
@@ -279,7 +283,7 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    onComplete: function() {
+    onComplete: function () {
         const reportError = new Error('Could not generate Allure report')
         const generation = allure(['generate', './test/reports/allure-result', '--clean'])
         return new Promise((resolve, reject) => {
@@ -287,7 +291,7 @@ exports.config = {
                 () => reject(reportError),
                 5000)
 
-            generation.on('exit', function(exitCode) {
+            generation.on('exit', function (exitCode) {
                 clearTimeout(generationTimeout)
 
                 if (exitCode !== 0) {

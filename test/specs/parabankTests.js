@@ -1,6 +1,7 @@
 const LoginPage = require('../pageobjects/loginPage');
 const AccountServicesPage = require('../pageobjects/accountServicesPage');
 const OpenNewAccountPage = require('../pageobjects/openNewAccountPage');
+const AccountDetailsPage = require('../pageobjects/accountDetailsPage');
 const Labels = require('../constants/pageLabels.js');
 const Yaml = require('js-yaml');
 const Fs = require('fs');
@@ -10,6 +11,7 @@ const TestData = Yaml.load(Fs.readFileSync('./test/testData/userInputs.yml')); /
 
 describe('Verification of opening two new accounts for both account types - CHECKING and SAVINGS', () => {
 
+    var newAccountNumber_1;
     before(async () => {
         await LoginPage.open();
     });
@@ -17,7 +19,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
     it('Verify user can login with valid credentials', async () => {
         let loginData = TestData['LoginData'];
         await LoginPage.open();
-        await LoginPage.login(loginData.username,loginData.password);
+        await LoginPage.login(loginData.username, loginData.password);
         await expect(AccountServicesPage.welcomeText).toBeExisting();
     });
 
@@ -31,19 +33,25 @@ describe('Verification of opening two new accounts for both account types - CHEC
         await expect(AccountServicesPage.openNewAccountFormLabel).toBeExisting();
     });
 
-    it('Verify user is able to enter data in Open New Account form', async () => {
+    it('Verify user is able to Fill up Open New Account form to create first account', async () => {
         let firstAccountData = TestData['FirstAccountData'];
-        await expect(OpenNewAccountPage.openNewAccountAppPanel).toBeExisting();
-        await OpenNewAccountPage.selectAccountType(firstAccountData.type);
-        await OpenNewAccountPage.selectFromAccount(firstAccountData.fromAccount);
+        await OpenNewAccountPage.fillNewAccountOpeningForm(firstAccountData);
+        await OpenNewAccountPage.validateSucessMessages();
+        newAccountNumber_1 = await OpenNewAccountPage.getNewAccountNumber()
+        console.log("New Account generated= " + newAccountNumber_1);
+        await OpenNewAccountPage.clickNewAccountNumber();
 
-        await OpenNewAccountPage.clickOpenNewAccountButton();
-        // await expect(OpenNewAccountPage.accountOpenedTitle).toBeExisting();
-        // console.log("New Account generated= "+ await OpenNewAccountPage.getNewAccountNumber());
-        // await OpenNewAccountPage.clickNewAccountNumber();
-        browser.pause(10000);
+    });
 
 
+    it('Verify user is able to launch Account Details page of the new account ', async () => {
+
+        await OpenNewAccountPage.clickNewAccountNumber();
+
+    });
+
+    it('Verify user is able to validate details on Accounts Details Page', async () => {
+        await AccountDetailsPage.validateNewAccountDetails();
 
     });
 
