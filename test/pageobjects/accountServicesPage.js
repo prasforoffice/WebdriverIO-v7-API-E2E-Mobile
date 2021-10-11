@@ -13,6 +13,8 @@ class AccountServicesPage extends Page {
     get accountServicesLabel () { return $('h2=Account Services')};
     get openNewAccountLink(){return $('=Open New Account')};
     get openNewAccountFormLabel(){return $('.title=Open New Account')};
+    get billPayLink() {return $('=Bill Pay')};
+    
 
 
     /**
@@ -20,10 +22,12 @@ class AccountServicesPage extends Page {
      */
     
     async clickOpenNewAccountLink () {
-        return await this.openNewAccountLink.click();
-       
+        return await this.openNewAccountLink.click();       
     }
 
+    async clickBillPayLink () {
+        return await this.billPayLink.click();       
+    }
  
 }
 

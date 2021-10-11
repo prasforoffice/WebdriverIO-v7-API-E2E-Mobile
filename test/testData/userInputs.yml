@@ -10,7 +10,7 @@ SecondAccountData:
   type: "SAVINGS"
   fromAccount: "13233"
 
-BIllPaymentData:
+BillPaymentData:
   name: "PayeeName"
   address: "XYZ Apartment 123 Street India"
   city: "Kolkata"

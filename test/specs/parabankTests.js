@@ -12,7 +12,7 @@ const TestData = Yaml.load(Fs.readFileSync('./test/testData/userInputs.yml')); /
 
 describe('Verification of opening two new accounts for both account types - CHECKING and SAVINGS', () => {
 
-    var firstAccountNumber,secondAccountNumber;
+    var firstAccountNumber,secondAccountNumber,billPaymentData;
     before(async () => {
         await LoginPage.open();
     });
@@ -68,8 +68,13 @@ describe('Verification of opening two new accounts for both account types - CHEC
     // });
 
     it('Verify user can launch and fill Bill Pay form', async () => {
-        let billPaymentData = TestData['FirstAccountData'];
-        await BillPayPage.fillBillPaymentForm();
+        billPaymentData = TestData['BillPaymentData'];
+        await AccountServicesPage.clickBillPayLink();
+        await BillPayPage.fillBillPaymentForm(billPaymentData,"12456","12900");
+    });
+
+    it('Validate the details on Bill Pay confirmation scree are corrct', async () => {
+        await BillPayPage.validateBillPayConfirmationDetails(billPaymentData.name,billPaymentData.amount,"12900");
     });
 
    
