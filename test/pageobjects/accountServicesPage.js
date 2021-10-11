@@ -15,12 +15,6 @@ class AccountServicesPage extends Page {
     get openNewAccountFormLabel() { return $('.title=Open New Account') };
     get billPayLink() { return $('=Bill Pay') };
 
-
-
-    /**
-
-     */
-
     async clickOpenNewAccountLink() {
         return await this.openNewAccountLink.click();
     }

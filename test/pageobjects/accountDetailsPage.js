@@ -20,7 +20,7 @@ class AccountDetailsPage extends Page {
 
 
 
-    async validateNewAccountDetails() {
+    async validateNewAccountDetails(expectedAccNumber,expectedAccType) {
         await expect(this.accountDetailsTitle).toBeExisting();
 
         let accountNumber = await this.accountNumber.getText();
@@ -28,13 +28,11 @@ class AccountDetailsPage extends Page {
         let accountBalance = await this.balance.getText();
         let availableBalance = await this.availableBalance.getText();
 
-
-        console.log("Account Details / num= " + accountNumber);
-        console.log("Account Details / type = " + accountType);
-        console.log("Account Details / balance = " + accountBalance);
-        console.log("Account Details / avalailableBalance = " + availableBalance);
-
         await expect(this.transactionTable).toBeExisting();
+        await expect(this.accountNumber).toHaveTextContaining(expectedAccNumber);
+        await expect(this.accountType).toHaveTextContaining(expectedAccType);
+
+        
     }
 
 
