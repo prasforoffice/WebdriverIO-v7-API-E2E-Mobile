@@ -31,7 +31,7 @@ class BillPayPage extends Page {
     get confirmation_fromAccountNumber() { return $('#fromAccountId') };
 
 
-    async fillBillPaymentForm(testData,toAccountNumber,fromAccountNumber) {
+    async fillBillPaymentForm(testData, toAccountNumber, fromAccountNumber) {
         await expect(this.billPaymentTitle).toBeExisting();
         await this.payeeNameTextbox.setValue(testData.name);
 
@@ -46,19 +46,19 @@ class BillPayPage extends Page {
         await this.amountTextbox.setValue(testData.amount);
 
         (fromAccountNumber) ? await this.fromAccountList.selectByAttribute('value', fromAccountNumber) : await this.fromAccountList.selectByAttribute('value', 0);
-        
+
         await this.submitButton.click();
         await expect(this.billPaymentCompleteTitle).toBeExisting();
     }
 
 
-    async validateBillPayConfirmationDetails(payeeName,amount,fromAccountNumber) {
+    async validateBillPayConfirmationDetails(payeeName, amount, fromAccountNumber) {
         await expect(this.confirmation_payeeName).toHaveTextContaining(payeeName);
         await expect(this.confirmation_amount).toHaveTextContaining(amount);
         await expect(this.confirmation_fromAccountNumber).toHaveTextContaining(fromAccountNumber);
     }
 
-  
+
 
 
 

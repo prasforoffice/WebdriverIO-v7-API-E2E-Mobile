@@ -4,15 +4,13 @@ LoginData:
 
 FirstAccountData:
   type: "CHECKING"
-  fromAccount: "13344"
 
 SecondAccountData:
   type: "SAVINGS"
-  fromAccount: "13233"
 
 BillPaymentData:
-  name: "PayeeName"
-  address: "XYZ Apartment 123 Street India"
+  name: "Chris Rock"
+  address: "900 Apartment 123 Street"
   city: "Kolkata"
   state: "West Bengal"
   pin: "700001"

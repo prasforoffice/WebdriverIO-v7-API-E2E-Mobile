@@ -25,7 +25,7 @@ class OpenNewAccountPage extends Page {
         await expect(this.openNewAccountAppPanel).toBeExisting();
         await this.selectAccountType(accountData.type);
         await this.selectFromAccount(accountData.fromAccount);
-            await this.clickOpenNewAccountButton();
+        await this.clickOpenNewAccountButton();
     }
 
 
@@ -60,8 +60,6 @@ class OpenNewAccountPage extends Page {
 
     async clickNewAccountNumber() {
         await expect(this.newAccountNumber).toBeExisting();
-        let number = await this.newAccountNumber.getText();
-        console.log("New account number= "+ number);
         await this.newAccountNumber.click();;
         await expect(this.accountDetailsTitle).toBeExisting();
     }
