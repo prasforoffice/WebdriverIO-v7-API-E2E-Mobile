@@ -13,25 +13,24 @@ class OpenNewAccountPage extends Page {
     get accountTypeDropDown() { return $('//*[@id="type"]') };
     get fromAccountDropDown() { return $('//*[@id="fromAccountId"]') };
     get openNewAccountButton() { return $('[value="Open New Account"]') };
-    get accountOpenedTitle() { return $('//h1[contains(text(),"Account Opened!")]') };
+    get accountOpenedTitle() { return $('.title=Account Opened!') };
     get newAccountNumber() { return $('//*[@id="newAccountId"]') };
-
+    get accountDetailsTitle() { return $('.title=Account Details') };
 
     /**
-
+     * @param {TestData} accountData 
      */
 
     async fillNewAccountOpeningForm(accountData) {
         await expect(this.openNewAccountAppPanel).toBeExisting();
         await this.selectAccountType(accountData.type);
         await this.selectFromAccount(accountData.fromAccount);
-        await this.clickOpenNewAccountButton();
+            await this.clickOpenNewAccountButton();
     }
 
 
 
     async selectAccountType(type) {
-        console.log("ACCOUNT TYPE= " + type);
         await this.accountTypeDropDown.waitForExist();
         return (type == "CHECKING") ? await this.accountTypeDropDown.selectByAttribute('value', 0) : await this.accountTypeDropDown.selectByAttribute('value', 1);
     }
@@ -48,8 +47,9 @@ class OpenNewAccountPage extends Page {
     }
 
     async validateSucessMessages() {
-        await this.accountOpenedTitle.waitForExist();
-        await expect(OpenNewAccountPage.accountOpenedTitle).toBeExisting();
+        await expect(this.accountOpenedTitle).toBeExisting();
+        await expect(this.newAccountNumber).toBeExisting();
+
     }
 
     async getNewAccountNumber() {
@@ -60,15 +60,11 @@ class OpenNewAccountPage extends Page {
 
     async clickNewAccountNumber() {
         await expect(this.newAccountNumber).toBeExisting();
-        let number = await this.newAccountNumber.getValue();
-        console.log("NEW=" + number);
+        let number = await this.newAccountNumber.getText();
+        console.log("New account number= "+ number);
         await this.newAccountNumber.click();;
         await expect(this.accountDetailsTitle).toBeExisting();
     }
-
-
-
-
 
 }
 

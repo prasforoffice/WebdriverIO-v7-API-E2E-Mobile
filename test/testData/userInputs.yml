@@ -9,3 +9,12 @@ FirstAccountData:
 SecondAccountData:
   type: "SAVINGS"
   fromAccount: "13233"
+
+BIllPaymentData:
+  name: "PayeeName"
+  address: "XYZ Apartment 123 Street India"
+  city: "Kolkata"
+  state: "West Bengal"
+  pin: "700001"
+  phone: "9999999999"
+  amount: 200
