@@ -14,6 +14,8 @@ class AccountServicesPage extends Page {
     get openNewAccountLink() { return $('=Open New Account') };
     get openNewAccountFormLabel() { return $('.title=Open New Account') };
     get billPayLink() { return $('=Bill Pay') };
+    get accountsOverviewLink() { return $('=Accounts Overview') };
+
 
     async clickOpenNewAccountLink() {
         return await this.openNewAccountLink.click();
@@ -21,6 +23,10 @@ class AccountServicesPage extends Page {
 
     async clickBillPayLink() {
         return await this.billPayLink.click();
+    }
+
+    async clickAccountsOverviewLink() {
+        return await this.accountsOverviewLink.click();
     }
 
 }

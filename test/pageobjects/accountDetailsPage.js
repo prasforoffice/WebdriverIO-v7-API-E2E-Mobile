@@ -18,21 +18,23 @@ class AccountDetailsPage extends Page {
     get availableBalance() { return $('#availableBalance') };
     get transactionTable() { return $('#transactionTable') };
 
-
-
-    async validateNewAccountDetails(expectedAccNumber,expectedAccType) {
+    async checkIfAccountDetailsScreenLoaded(expectedAccNumber, expectedAccType) {
         await expect(this.accountDetailsTitle).toBeExisting();
+    }
 
-        let accountNumber = await this.accountNumber.getText();
-        let accountType = await this.accountType.getText();
-        let accountBalance = await this.balance.getText();
-        let availableBalance = await this.availableBalance.getText();
+
+    async validateNewAccountDetails(expectedAccNumber, expectedAccType) {
+    
+        // let accountNumber = await this.accountNumber.getText();
+        // let accountType = await this.accountType.getText();
+        // let accountBalance = await this.balance.getText();
+        // let availableBalance = await this.availableBalance.getText();
 
         await expect(this.transactionTable).toBeExisting();
         await expect(this.accountNumber).toHaveTextContaining(expectedAccNumber);
         await expect(this.accountType).toHaveTextContaining(expectedAccType);
 
-        
+
     }
 
 

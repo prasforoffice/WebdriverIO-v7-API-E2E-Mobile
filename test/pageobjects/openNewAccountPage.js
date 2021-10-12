@@ -42,7 +42,8 @@ class OpenNewAccountPage extends Page {
 
 
     async clickOpenNewAccountButton() {
-        await this.openNewAccountButton.waitForExist();
+        await browser.pause(3000);
+        await this.openNewAccountButton.waitForDisplayed({ timeout: 10000 })
         return await this.openNewAccountButton.click();
     }
 
