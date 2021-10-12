@@ -13,7 +13,7 @@ const TestData = Yaml.load(Fs.readFileSync('./test/testData/userInputs.yml')); /
 
 describe('Verification of opening two new accounts for both account types - CHECKING and SAVINGS', () => {
 
-    var firstAccountNumber, secondAccountNumber;
+    var firstAccountNumber, secondAccountNumber,firstAccountBalance,secondAccountBalance;
     var billPaymentData, secondAccountData, firstAccountData;
 
     before(async () => {
@@ -32,7 +32,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
         await expect(AccountServicesPage.welcomeText).toHaveTextContaining(Labels.WELCOME_TEXT);
     });
 
-    //Section for creating 1st account
+    // Section for creating 1st account
 
     it('Verify user is able to launch,fill and submit New Account form to create 1st account', async () => {
         firstAccountData = TestData['FirstAccountData'];
@@ -46,6 +46,10 @@ describe('Verification of opening two new accounts for both account types - CHEC
     it('Verify user is able to launch & validate Account Details page of the 1st account ', async () => {
         await OpenNewAccountPage.clickNewAccountNumber();
         await AccountDetailsPage.validateNewAccountDetails(firstAccountNumber,firstAccountData.type);
+        firstAccountBalance = await AccountDetailsPage.getAccountBalance();
+        firstAccountAvlBalance = await AccountDetailsPage.getAvailableBalance();
+
+
     });
 
     //Section for creating 2nd account
@@ -63,6 +67,8 @@ describe('Verification of opening two new accounts for both account types - CHEC
     it('Verify user is able to launch & validate Account Details page of the 2nd account ', async () => {
         await OpenNewAccountPage.clickNewAccountNumber();
         await AccountDetailsPage.validateNewAccountDetails(secondAccountNumber,secondAccountData.type);
+        secondAccountBalance = await AccountDetailsPage.getAccountBalance();
+        secondAccountAvlBalance = await AccountDetailsPage.getAvailableBalance();
     });
 
     it('Verify user can launch and fill Bill Pay form', async () => {
@@ -76,12 +82,31 @@ describe('Verification of opening two new accounts for both account types - CHEC
     });
 
 
-    // it('Validate the Bill payment transactions across two new accounts', async () => {
-    //     // await AccountServicesPage.clickAccountsOverviewLink();
-    //     await AccountsOverviewPage.openAccountFromOverviewPage("13344");
-    //     await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
+    it('Validate the Bill payment transactions across two new accounts', async () => {
+         /* First account verification */
+        await AccountServicesPage.clickAccountsOverviewLink();
+        // secondAccountNumber = "22446"
+        await AccountsOverviewPage.openAccountFromOverviewPage(secondAccountNumber);
+        await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
+        // secondAccountBalance = "$100.00"
+        // secondAccountAvlBalance = "$100.00"
+        await AccountDetailsPage.validateAccountBalance(secondAccountBalance,secondAccountAvlBalance);
 
-    // });
+        /*  Second account verification */
+        await AccountServicesPage.clickAccountsOverviewLink();
+        // firstAccountNumber="22335";
+        await AccountsOverviewPage.openAccountFromOverviewPage(firstAccountNumber);
+        await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
+        // firstAccountBalance="$100.00";
+        var currentBalance = parseFloat(firstAccountBalance.replace(/[^\d\.]/, '')) - 200;
+        currentBalance = AccountDetailsPage.convertNumberToCurrencyAmount(currentBalance);
+        await AccountDetailsPage.validateAccountBalance(currentBalance,AccountDetailsPage.convertNumberToCurrencyAmount("0"));
+
+
+
+    });
+
+    
 
 
 

@@ -22,24 +22,39 @@ class AccountDetailsPage extends Page {
         await expect(this.accountDetailsTitle).toBeExisting();
     }
 
-
     async validateNewAccountDetails(expectedAccNumber, expectedAccType) {
-    
-        // let accountNumber = await this.accountNumber.getText();
-        // let accountType = await this.accountType.getText();
-        // let accountBalance = await this.balance.getText();
-        // let availableBalance = await this.availableBalance.getText();
-
         await expect(this.transactionTable).toBeExisting();
         await expect(this.accountNumber).toHaveTextContaining(expectedAccNumber);
         await expect(this.accountType).toHaveTextContaining(expectedAccType);
-
-
     }
 
+    async getAccountBalance() {
+        return await this.balance.getText();
+    }
 
+    async getAvailableBalance() {
+        return await this.availableBalance.getText();
+    }
 
+    async validateAccountBalance(balanceAmount,availableBalAmount) {
 
+        // balanceAmount = this.convertNumberToCurrencyAmount(balanceAmount);
+        // availableBalAmount = this.convertNumberToCurrencyAmount(availableBalAmount);
+
+        await expect(this.balance).toHaveTextContaining(balanceAmount);
+        await expect(this.availableBalance).toHaveTextContaining(availableBalAmount);
+    }
+
+    convertNumberToCurrencyAmount(number){
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+          })
+
+          return formatter.format(number);
+    };
+ 
 
 }
 
