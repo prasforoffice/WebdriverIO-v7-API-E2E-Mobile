@@ -1,0 +1,18 @@
+LoginData:
+  username: "john"
+  password: "demo"
+
+FirstAccountData:
+  type: "CHECKING"
+
+SecondAccountData:
+  type: "SAVINGS"
+
+BillPaymentData:
+  name: "Chris Rock"
+  address: "900 Apartment 123 Street"
+  city: "Kolkata"
+  state: "West Bengal"
+  pin: "700001"
+  phone: "9999999999"
+  amount: 200
