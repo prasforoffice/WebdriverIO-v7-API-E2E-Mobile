@@ -22,7 +22,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './test/specs/e2e_RegressionTest.js'
+        './test/specs/visualRegressionTest.js'
     ],
     // Patterns to exclude.
     exclude: [

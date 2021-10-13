@@ -32,7 +32,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
         await expect(AccountServicesPage.welcomeText).toHaveTextContaining(Labels.WELCOME_TEXT);
     });
 
-    // Section for creating 1st account
+    /* Section for creating 1st account */
 
     it('Verify user is able to launch,fill and submit New Account form to create 1st account', async () => {
         firstAccountData = TestData['FirstAccountData'];
@@ -52,7 +52,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
 
     });
 
-    //Section for creating 2nd account
+    /*Section for creating 2nd account*/
 
     it('Verify user is able to launch,fill and submit New Account form to create 2nd account', async () => {
         secondAccountData = TestData['SecondAccountData'];
@@ -85,24 +85,17 @@ describe('Verification of opening two new accounts for both account types - CHEC
     it('Validate the Bill payment transactions across two new accounts', async () => {
          /* First account verification */
         await AccountServicesPage.clickAccountsOverviewLink();
-        // secondAccountNumber = "22446"
         await AccountsOverviewPage.openAccountFromOverviewPage(secondAccountNumber);
         await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
-        // secondAccountBalance = "$100.00"
-        // secondAccountAvlBalance = "$100.00"
         await AccountDetailsPage.validateAccountBalance(secondAccountBalance,secondAccountAvlBalance);
 
         /*  Second account verification */
         await AccountServicesPage.clickAccountsOverviewLink();
-        // firstAccountNumber="22335";
         await AccountsOverviewPage.openAccountFromOverviewPage(firstAccountNumber);
         await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
-        // firstAccountBalance="$100.00";
         var currentBalance = parseFloat(firstAccountBalance.replace(/[^\d\.]/, '')) - 200;
         currentBalance = AccountDetailsPage.convertNumberToCurrencyAmount(currentBalance);
         await AccountDetailsPage.validateAccountBalance(currentBalance,AccountDetailsPage.convertNumberToCurrencyAmount("0"));
-
-
 
     });
 
@@ -111,6 +104,3 @@ describe('Verification of opening two new accounts for both account types - CHEC
 
 
 });
-
-
-

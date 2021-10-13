@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx wdio run ./test/config/wdio.conf.js",
+    "test:e2e": "npx wdio run ./test/config/wdio.conf.js",
+    "test:vr": "npx wdio run ./test/config/visualRegression.conf.js",
     "report:generate": "npx allure generate --clean ./test/reports/allure-result/ -o ./test/reports/allure-report",
     "report:open": "npx allure open ./test/reports/allure-report"
   },
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/prasforoffice/assignmentsAB#readme",
   "devDependencies": {
+    "@applitools/eyes-webdriverio": "^5.32.9",
     "@wdio/allure-reporter": "^7.14.1",
     "@wdio/cli": "^7.14.1",
     "@wdio/firefox-profile-service": "^7.14.1",
