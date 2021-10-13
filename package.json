@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx wdio run ./test/config/wdio.conf.js",
+    "test:e2e": "npx wdio run ./test/config/wdio.conf.js",
+    "test:vr": "npx wdio run ./test/config/visualRegression.conf.js",
     "report:generate": "npx allure generate --clean ./test/reports/allure-result/ -o ./test/reports/allure-report",
     "report:open": "npx allure open ./test/reports/allure-report"
   },
