@@ -26,9 +26,9 @@ const BillPayPage = require('../pageobjects/billPayPage');
 const Labels = require('../constants/pageLabels.js');
 const Yaml = require('js-yaml');
 const Fs = require('fs');
-
-
 const TestData = Yaml.load(Fs.readFileSync('./test/testData/userInputs.yml')); //To read the test data yaml file
+const Keys = Yaml.load(Fs.readFileSync('./test/testData/keys.yml')); //To read the test data yaml file
+
 
 describe('Verification of opening two new accounts for both account types - CHECKING and SAVINGS', () => {
 
@@ -43,7 +43,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
             eyes.setLogHandler(new ConsoleLogHandler(true));
         }
         configuration = eyes.getConfiguration();
-        configuration.setApiKey("ArQif7103nbl107H5mbRjg7kI5LpQzokSnonnp4RUvQ0z2A110")
+        configuration.setApiKey(Keys['APPLITOOLS'].API_KEY)
         configuration.setBatch(new BatchInfo('Visual Regression Testing - Assignment'))
         await LoginPage.open();
     });
@@ -71,11 +71,11 @@ describe('Verification of opening two new accounts for both account types - CHEC
 
     it('Verify user sees a welcome message with a full name in Account Services section', async () => {
         await expect(AccountServicesPage.accountServicesLabel).toBeExisting();
-        await expect(AccountServicesPage.welcomeText).toHaveTextContaining(Labels.WELCOME_TEXT);      
-       
+        await expect(AccountServicesPage.welcomeText).toHaveTextContaining(Labels.WELCOME_TEXT);
+        await eyes.check('Welcome message', Target.window().fully());
     });
 
-    // Section for creating 1st account
+    /* Section for creating 1st account*/
 
     it('Verify user is able to launch,fill and submit New Account form to create 1st account', async () => {
         firstAccountData = TestData['FirstAccountData'];
@@ -94,11 +94,9 @@ describe('Verification of opening two new accounts for both account types - CHEC
         await AccountDetailsPage.validateNewAccountDetails(firstAccountNumber, firstAccountData.type);
         firstAccountBalance = await AccountDetailsPage.getAccountBalance();
         firstAccountAvlBalance = await AccountDetailsPage.getAvailableBalance();
-
-
     });
 
-    //Section for creating 2nd account
+    /* Section for creating 2nd account */
 
     it('Verify user is able to launch,fill and submit New Account form to create 2nd account', async () => {
         secondAccountData = TestData['SecondAccountData'];
@@ -149,19 +147,17 @@ describe('Verification of opening two new accounts for both account types - CHEC
         currentBalance = AccountDetailsPage.convertNumberToCurrencyAmount(currentBalance);
         await AccountDetailsPage.validateAccountBalance(currentBalance, AccountDetailsPage.convertNumberToCurrencyAmount("0"));
         await eyes.check('Account Details - account #2 Page', Target.window().fully());
-        await eyes.closeAsync();
     });
 
 
     afterEach(async () => {
-        // If the test was aborted before eyes.close was called, ends the test as aborted.
-        await eyes.abortAsync();
-      });
-      
-      after(async () => {
+        await eyes.closeAsync();
+    });
+
+    after(async () => {
         const results = await runner.getAllTestResults();
         console.log(results);
-      });
+    });
 
 
 });
