@@ -111,7 +111,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver', 'firefox-profile', 'image-comparison'],
+    services: [],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -232,15 +232,15 @@ exports.config = {
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */
-    afterTest: async function (test, context, { error, result, duration, passed, retries }) {
-        if (!passed) {
-            await browser.takeScreenshot();
-        }
+    // afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+    //     if (!passed) {
+    //         await browser.takeScreenshot();
+    //     }
 
-        if (passed) {
-            await browser.takeScreenshot();
-        }
-    },
+    //     if (passed) {
+    //         await browser.takeScreenshot();
+    //     }
+    // },
 
 
     /**
@@ -283,26 +283,7 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function () {
-    //     const reportError = new Error('Could not generate Allure report')
-    //     const generation = allure(['generate', './test/reports/', '--clean'])
-    //     return new Promise((resolve, reject) => {
-    //         const generationTimeout = setTimeout(
-    //             () => reject(reportError),
-    //             5000)
 
-    //         generation.on('exit', function (exitCode) {
-    //             clearTimeout(generationTimeout)
-
-    //             if (exitCode !== 0) {
-    //                 return reject(reportError)
-    //             }
-
-    //             console.log('Allure report successfully generated')
-    //             resolve()
-    //         })
-    //     })
-    // },
     /**
     * Gets executed when a refresh happens.
     * @param {String} oldSessionId session ID of the old session
