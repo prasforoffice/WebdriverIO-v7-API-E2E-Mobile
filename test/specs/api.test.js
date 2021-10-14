@@ -1,6 +1,8 @@
 
 const { expect } = require('chai');
 const supertest = require('supertest');
+const addContext = require('mochawesome/addContext');
+
 var url = 'https://parabank.parasoft.com';
 var agent = supertest.agent(url);
 var credentials = 'username=john&password=demo';
@@ -21,12 +23,13 @@ describe('ParaBank Assignment', function () {
         * Login
         */
 
-        it('should login to Parabank with valid credentials', async (done) => {
+        it('should login to Parabank with valid credentials', async () => {
             const res = await agent
                 .post('/parabank/login.htm')
                 .send(credentials)
                 .set('Accept', 'text/html')
                 .expect(302);
+            
         });
 
 
@@ -35,11 +38,11 @@ describe('ParaBank Assignment', function () {
         * GetAccount details
         */
 
-        it('should correctly make an authenticated GET request - accounts', async (done) => {
+        it('should correctly make an authenticated GET request - accounts', async () => {
             const res = await agent
                 .get('/parabank/services_proxy/bank/customers/12212/accounts')
                 .expect(200);
-            console.log(JSON.stringify(res.body));
+                console.log(JSON.stringify(res.body));
 
         });
 
@@ -49,19 +52,18 @@ describe('ParaBank Assignment', function () {
         // * Create 1st  Account 
         // */
 
-        // it('should correctly make an authenticated POST request to create first account', async (done) => {
+        // it('should correctly make an authenticated POST request to create first account', async () => {
         //     var param = '/parabank/services_proxy/bank/createAccount?' + openFirstAccountParam;
         //     console.log("FIRST PARAM=" + param);
         //     const res = await agent
         //         .post(param)
-        //         // .send(openNewAccountParam)
         //         .expect(200);
-        //     // .then((res) => {
-        //     //     expect(res.body).to.have.property('id');
-        //     //     expect(res.body).to.have.property('type',"CHECKING");
-        //     //     expect(res.body).to.have.property('customerId');
-        //     //     expect(res.body).to.have.property('balance');
-        //     //    });
+
+        //     expect(res.body).to.have.property('id');
+        //     expect(res.body).to.have.property('type',"CHECKING");
+        //     expect(res.body).to.have.property('customerId');
+        //     expect(res.body).to.have.property('balance');
+
         //     console.log("FIRST RES:=" + JSON.stringify(res.body));
         //     firstAccount = res.body.id;
         //     firstAccountBalance = res.body.balance;
@@ -70,11 +72,11 @@ describe('ParaBank Assignment', function () {
         // });
 
 
-        // /** 
-        // * Create 2nd  Account 
-        // */
+        // // /** 
+        // // * Create 2nd  Account 
+        // // */
 
-        // it('should correctly make an authenticated POST request to create second account', async (done) => {
+        // it('should correctly make an authenticated POST request to create second account', async () => {
         //     var param = '/parabank/services_proxy/bank/createAccount?' + openSecondAccountParam;
         //     console.log("SECOND PARAM=" + param);
         //     const res = await agent
@@ -89,12 +91,12 @@ describe('ParaBank Assignment', function () {
 
 
 
-        // /** 
-        // * Bill Payment & Verification
-        // */
+        // // /** 
+        // // * Bill Payment & Verification
+        // // */
 
 
-        // it('should correctly make an authenticated POST request to make Bill Payment between newly created accounts', async (done) => {
+        // it('should correctly make an authenticated POST request to make Bill Payment between newly created accounts', async () => {
         //     var amount = "200";
         //     var payeeName = "John Travolta";
         //     var billPayementParam = `accountId=${firstAccount}&amount=${amount}`
@@ -135,11 +137,11 @@ describe('ParaBank Assignment', function () {
 
         // });
 
-        // /** 
-        //  * First  Account Verification
-        //  */
+        // // /** 
+        // //  * First  Account Verification
+        // //  */
 
-        // it('should make an authenticated GET request to collect and validate the updated balances of donor account', async (done) => {
+        // it('should make an authenticated GET request to collect and validate the updated balances of donor account', async () => {
         //     var account = firstAccount;
 
         //     var path = `/parabank/services_proxy/bank/accounts/${account}`;
@@ -165,7 +167,7 @@ describe('ParaBank Assignment', function () {
         // });
 
 
-        // it('should make an authenticated GET request and validate the transaction of the donor account', async (done) => {
+        // it('should make an authenticated GET request and validate the transaction of the donor account', async () => {
         //     var account = firstAccount;
         //     var path = `/parabank/services_proxy/bank/accounts/${account}/transactions`
         //     console.log("PATH=" + path)
@@ -199,7 +201,7 @@ describe('ParaBank Assignment', function () {
         //  * Second Account Verification
         //  */
 
-        // it('should make an authenticated GET request to collect and validate the updated balances of donor account', async (done) => {
+        // it('should make an authenticated GET request to collect and validate the updated balances of donor account', async () => {
         //     var account = secondAccount;
 
         //     var path = `/parabank/services_proxy/bank/accounts/${account}`;
@@ -225,7 +227,7 @@ describe('ParaBank Assignment', function () {
         // });
 
 
-        // it('should make an authenticated GET request and validate the transaction of the donor account', async (done) => {
+        // it('should make an authenticated GET request and validate the transaction of the donor account', async () => {
         //     var account = secondAccount;
         //     var path = `/parabank/services_proxy/bank/accounts/${account}/transactions`
         //     console.log("PATH=" + path)
@@ -250,8 +252,6 @@ describe('ParaBank Assignment', function () {
         //             expect(element.amount).to.be.equal(100);
         //             expect(element.type).to.be.equal("Credit");
         //             expect(element.accountId).to.be.equal(parseInt(account));
-
-
         //         }
 
         //     });
