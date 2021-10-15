@@ -2,6 +2,10 @@ LoginData:
   username: "john"
   password: "demo"
 
+NegativeLoginData:
+  username: "john"
+  password: "demo23"
+
 FirstAccountData:
   type: "CHECKING"
 
