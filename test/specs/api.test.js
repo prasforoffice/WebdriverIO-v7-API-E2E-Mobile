@@ -1,42 +1,26 @@
-
+//#### REFACTORED ####
 const { expect } = require('chai');
 const supertest = require('supertest');
 const addContext = require('mochawesome/addContext');
+const Fs = require('fs'); 
+const Yaml = require('js-yaml');
+
+
 const url = 'https://parabank.parasoft.com';
 var agent = supertest.agent(url);
+var transferAmount = "200";
+var payeeName = "John Travolta";
+const TestData = Yaml.load(Fs.readFileSync('./test/testData/userInputs.yml')); //To read the test data yaml file
+var credentials = `username=${TestData['LoginData'].username}&password=${TestData['LoginData'].password}`;
 
-
-
+var firstAccount, secondAccount, firstAccountBalance, secondAccountBalance, sourceAccount;
 
 
 
 describe('ParaBank Assignment', function () {
-    var credentials = 'username=john&password=demo';
-   
-    var openFirstAccountPath = 'customerId=12212&newAccountType=0&fromAccountId=12345';
-    var openSecondAccountPath = 'customerId=12212&newAccountType=1&fromAccountId=12345';
-    var firstAccount, secondAccount,firstAccountBalance,secondAccountBalance
 
 
-    var transferAmount = "200";
-    var payeeName = "John Travolta";
-    var billPayementParam = `accountId=${firstAccount}&amount=${transferAmount}`
-    var billPayRequestPayload =
-    {
-        "address":
-        {
-            "street": "XYZ Apartment 123 Street India",
-            "city": "Kolkata",
-            "state": "West Bengal",
-            "zipCode": "700001"
-        },
-        "name": `${payeeName}`,
-        "phoneNumber": "9999999999",
-        "accountNumber": `${secondAccount}`
-    }
-
-
-    describe.only('Bill Transfer across 2 new accounts', function () {
+    describe('Negative Login Test', function () {
         it('should return Error in response for invalid login credentials', async () => {
             const res = await agent
                 .post('/parabank/login.htm')
@@ -44,14 +28,13 @@ describe('ParaBank Assignment', function () {
                 .set('Accept', 'text/html')
                 .expect(200);
                 expect(res.text).to.include('<p class="error">The username and password could not be verified.</p>');
-               
-               
+
         });
 
 
     }),
 
-    describe('Bill Transfer across 2 new accounts', function () {
+    describe('Create 2 new accounts and complete Bill Transfer between them ', function () {
 
 
         /** 
@@ -59,12 +42,13 @@ describe('ParaBank Assignment', function () {
         */
 
         it('should login to Parabank with valid credentials', async () => {
+            console.log("credentials" + credentials);
             const res = await agent
                 .post('/parabank/login.htm')
                 .send(credentials)
                 .set('Accept', 'text/html')
                 .expect(302);
-            
+
         });
 
 
@@ -77,8 +61,15 @@ describe('ParaBank Assignment', function () {
             const res = await agent
                 .get('/parabank/services_proxy/bank/customers/12212/accounts')
                 .expect(200);
-                console.log(JSON.stringify(res.body));
 
+            console.log(JSON.stringify(res.body));
+            res.body.some(element => {
+                if (parseFloat(element.balance) > 200) {
+                    sourceAccount = element.id;
+                    console.log("SOURCE ACCOUNT = " + sourceAccount);
+                    return true;
+                }
+            });
         });
 
 
@@ -88,16 +79,18 @@ describe('ParaBank Assignment', function () {
         */
 
         it('should correctly make an authenticated POST request to create first account', async () => {
+            var openFirstAccountPath = `customerId=12212&newAccountType=0&fromAccountId=${sourceAccount}`;
             var param = '/parabank/services_proxy/bank/createAccount?' + openFirstAccountPath;
+            console.log("PARAM = " + param);
             const res = await agent
                 .post(param)
                 .expect(200);
 
             expect(res.body).to.have.property('id');
-            expect(res.body).to.have.property('type',"CHECKING");
+            expect(res.body).to.have.property('type', "CHECKING");
             expect(res.body).to.have.property('customerId');
             expect(res.body).to.have.property('balance');
-           
+
             firstAccount = res.body.id;  // storing the first account from response
             firstAccountBalance = res.body.balance; // storing the first account balance from response
 
@@ -110,12 +103,13 @@ describe('ParaBank Assignment', function () {
         // */
 
         it('should correctly make an authenticated POST request to create second account', async () => {
+            var openSecondAccountPath = `customerId=12212&newAccountType=1&fromAccountId=${sourceAccount}`;
             var param = '/parabank/services_proxy/bank/createAccount?' + openSecondAccountPath;
             console.log("SECOND PARAM=" + param);
             const res = await agent
                 .post(param)
                 .expect(200);
-            
+
             secondAccount = res.body.id;   // storing the 2nd account from response
             secondAccountBalance = res.body.balance;  // storing the 2nd account balance from response
             console.log("SECOND RES:=" + JSON.stringify(res.body));
@@ -129,8 +123,22 @@ describe('ParaBank Assignment', function () {
 
 
         it('should correctly make an authenticated POST request to make Bill Payment between newly created accounts', async () => {
-     
+            var billPayementParam = `accountId=${firstAccount}&amount=${transferAmount}`
             var path = '/parabank/services_proxy/bank/billpay?' + billPayementParam;
+            var billPayRequestPayload =
+            {
+                "address":
+                {
+                    "street": "XYZ Apartment 123 Street India",
+                    "city": "Kolkata",
+                    "state": "West Bengal",
+                    "zipCode": "700001"
+                },
+                "name": `${payeeName}`,
+                "phoneNumber": "9999999999",
+                "accountNumber": `${secondAccount}`
+            }
+
             const res = await agent
                 .post(path)
                 .send(billPayRequestPayload)
@@ -183,11 +191,12 @@ describe('ParaBank Assignment', function () {
                 .get(path)
                 .expect(200);
 
-            res.body.forEach(element => {
-                if (element.description.includes("Bill Payment to")) {
+            res.body.some(element => {
+                if (element.description.includes("Bill Payment to " + payeeName)) {
                     expect(element.amount).to.be.equal(parseFloat(transferAmount));
                     expect(element.type).to.be.equal("Debit");
                     expect(element.accountId).to.be.equal(parseInt(firstAccount));
+                    return true;
 
                 }
 
@@ -233,12 +242,13 @@ describe('ParaBank Assignment', function () {
             const res = await agent
                 .get(path)
                 .expect(200);
-                
-            res.body.forEach(element => {
+
+            res.body.some(element => {
                 if (element.description.includes("Funds Transfer Received")) {
                     expect(element.amount).to.be.equal(100);
                     expect(element.type).to.be.equal("Credit");
                     expect(element.accountId).to.be.equal(parseInt(account));
+                    return true;
                 }
 
                 console.log("DESCRIPTION " + element.description);
