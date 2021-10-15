@@ -132,21 +132,33 @@ describe('Verification of opening two new accounts for both account types - CHEC
 
 
     it('Validate the Bill payment transactions across two new accounts', async () => {
-        /* First account verification */
-        await AccountServicesPage.clickAccountsOverviewLink();
-        await AccountsOverviewPage.openAccountFromOverviewPage(secondAccountNumber);
-        await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
-        await AccountDetailsPage.validateAccountBalance(secondAccountBalance, secondAccountAvlBalance);
-        await eyes.check('Account Details - account #1 Page', Target.window().fully());
 
-        /*  Second account verification */
+        /* First Account - Donor Account Validation */
         await AccountServicesPage.clickAccountsOverviewLink();
         await AccountsOverviewPage.openAccountFromOverviewPage(firstAccountNumber);
         await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
-        var currentBalance = parseFloat(firstAccountBalance.replace(/[^\d\.]/, '')) - 200;
-        currentBalance = AccountDetailsPage.convertNumberToCurrencyAmount(currentBalance);
-        await AccountDetailsPage.validateAccountBalance(currentBalance, AccountDetailsPage.convertNumberToCurrencyAmount("0"));
-        await eyes.check('Account Details - account #2 Page', Target.window().fully());
+
+        var newBalance = parseFloat(firstAccountBalance.replace(/[^\d\.]/, '')) - parseFloat(billPaymentData.amount);
+        newBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newBalance);
+        var newAvlBalance = parseFloat(firstAccountAvlBalance.replace(/[^\d\.]/, '')) - parseFloat(billPaymentData.amount);
+        if (newAvlBalance < 0) newAvlBalance = 0  // Avaialble balance = 0 for negative balance
+        newAvlBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newAvlBalance);
+        await AccountDetailsPage.validateAccountBalance(newBalance, newAvlBalance);
+        await eyes.check('Account Details - Donor account Page', Target.window().fully());
+
+
+        /* Second Account - Reciever Account Validation */
+        await AccountServicesPage.clickAccountsOverviewLink();
+        await AccountsOverviewPage.openAccountFromOverviewPage(secondAccountNumber);
+        await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
+        var newAccBalance = parseFloat(secondAccountBalance.replace(/[^\d\.]/, '')) + parseFloat(billPaymentData.amount);
+        var newAccAvlBalance = parseFloat(secondAccountAvlBalance.replace(/[^\d\.]/, '')) + parseFloat(billPaymentData.amount);
+        if (newAccAvlBalance < 0) newAccAvlBalance = 0  // Avaialble balance = 0 for negative balance
+        newAccBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newAccBalance);
+        newAccAvlBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newAccAvlBalance);
+        await AccountDetailsPage.validateAccountBalance(newAccBalance, newAccAvlBalance);
+        await eyes.check('Account Details - receiver account Page', Target.window().fully());
+
     });
 
 
