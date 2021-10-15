@@ -1,17 +1,15 @@
 //#### REFACTORED ####
 const { expect } = require('chai');
 const supertest = require('supertest');
-const addContext = require('mochawesome/addContext');
-const fs = require('fs'); 
+const fs = require('fs');
 const Yaml = require('js-yaml');
 
 
 const url = 'https://parabank.parasoft.com';
 var agent = supertest.agent(url);
-var transferAmount = "200";
-var payeeName = "John Travolta";
 const TestData = Yaml.load(fs.readFileSync('./test/testData/userInputs.yml')); //To read the test data yaml file
-
+var transferAmount = TestData['BillPaymentData'].amount;
+var payeeName = TestData['BillPaymentData'].name;
 const apiResponsePath = 'test/reports/apiResponse/';
 
 var firstAccount, secondAccount, firstAccountBalance, secondAccountBalance, sourceAccount;
@@ -50,19 +48,19 @@ describe('ParaBank Assignment', function () {
                 .expect(200);
 
             res.body.some(element => {
-                if (parseFloat(element.balance) > 200) {
+                if (parseFloat(element.balance) > transferAmount) {
                     sourceAccount = element.id;
                     return true;
                 }
             });
 
-            fs.writeFileSync(apiResponsePath+'getAccounts.json',JSON.stringify(res.body),function(err){
+            fs.writeFileSync(apiResponsePath + 'getAccounts.json', JSON.stringify(res.body), function (err) {
                 if (err) {
                     console.log(err);
                 }
             });
 
-           
+
 
         });
 
@@ -79,21 +77,43 @@ describe('ParaBank Assignment', function () {
                 .post(param)
                 .expect(200);
 
+
             expect(res.body).to.have.property('id');
             expect(res.body).to.have.property('type', "CHECKING");
             expect(res.body).to.have.property('customerId');
             expect(res.body).to.have.property('balance');
 
             firstAccount = res.body.id;  // storing the first account from response
-            firstAccountBalance = res.body.balance; // storing the first account balance from response
-            console.log("firstAccountBalance " + firstAccountBalance);
 
-            fs.writeFileSync(apiResponsePath+'firstAccount.json',JSON.stringify(res.body),function(err){
+        });
+
+
+        it('should correctly make an authenticated GET request to get balance of first account', async () => {
+            
+            var param =  `/parabank/services_proxy/bank/accounts/${firstAccount}`;
+            const res = await agent
+                .get(param)
+                .expect(200);
+
+            fs.writeFileSync(apiResponsePath + 'firstAccount.json', JSON.stringify(res.body), function (err) {
                 if (err) {
                     console.log(err);
                 }
             });
+
+            expect(res.body).to.have.property('id');
+            expect(res.body).to.have.property('type', "CHECKING");
+            expect(res.body).to.have.property('customerId');
+            expect(res.body).to.have.property('balance');
+
+            firstAccountBalance = res.body.balance; // storing the first account balance from response
+            console.log("firstAccountBalance = " + firstAccountBalance);
+
+
         });
+
+
+
 
 
         // /** 
@@ -108,13 +128,31 @@ describe('ParaBank Assignment', function () {
                 .expect(200);
 
             secondAccount = res.body.id;   // storing the 2nd account from response
-            secondAccountBalance = res.body.balance;  // storing the 2nd account balance from response
-            console.log("secondAccountBalance " + secondAccountBalance);
-            fs.writeFileSync(apiResponsePath+'secondAccount.json',JSON.stringify(res.body),function(err){
+         
+        });
+
+        it('should correctly make an authenticated GET request to get balance of second account', async () => {
+            
+            var param =  `/parabank/services_proxy/bank/accounts/${secondAccount}`;
+            const res = await agent
+                .get(param)
+                .expect(200);
+
+            fs.writeFileSync(apiResponsePath + 'secondAccount.json', JSON.stringify(res.body), function (err) {
                 if (err) {
                     console.log(err);
                 }
             });
+
+            expect(res.body).to.have.property('id');
+            expect(res.body).to.have.property('type', "SAVINGS");
+            expect(res.body).to.have.property('customerId');
+            expect(res.body).to.have.property('balance');
+
+            secondAccountBalance = res.body.balance; // storing the first account balance from response
+            console.log("second account balance = " + secondAccountBalance);
+
+
         });
 
 
@@ -151,7 +189,7 @@ describe('ParaBank Assignment', function () {
             res_amount = res.body.amount;
             res_accountId = res.body.accountId;
 
-            fs.writeFileSync(apiResponsePath+'Bill_Payment.json',JSON.stringify(res.body),function(err){
+            fs.writeFileSync(apiResponsePath + 'Bill_Payment.json', JSON.stringify(res.body), function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -172,7 +210,7 @@ describe('ParaBank Assignment', function () {
 
         it('should make an authenticated GET request to collect and validate the updated balances of donor account', async () => {
             var account = firstAccount;
-            console.log("FIRST BALANCE"+ parseFloat(firstAccountBalance) - parseFloat(transferAmount));
+            console.log("FIRST BALANCE" + parseFloat(firstAccountBalance) - parseFloat(transferAmount));
             var path = `/parabank/services_proxy/bank/accounts/${account}`;
             const res = await agent
                 .get(path)
@@ -183,19 +221,19 @@ describe('ParaBank Assignment', function () {
             var customerId = res.body.customerId;
             var accountType = res.body.type;
 
-            fs.writeFileSync(apiResponsePath+'First_Account_Details.json',JSON.stringify(res.body),function(err){
+            fs.writeFileSync(apiResponsePath + 'First_Account_Details.json', JSON.stringify(res.body), function (err) {
                 if (err) {
                     console.log(err);
                 }
             });
 
             expect(accountId).to.equal(parseInt(firstAccount));
-           
+
             expect(balance).to.equal((parseFloat(firstAccountBalance) - parseFloat(transferAmount)));
             expect(customerId).to.equal(12212);
             expect(accountType).to.equal("CHECKING");
 
-  
+
 
         });
 
@@ -207,11 +245,11 @@ describe('ParaBank Assignment', function () {
                 .get(path)
                 .expect(200);
 
-                fs.writeFileSync(apiResponsePath+'First_Account_Tansaction_Details.json',JSON.stringify(res.body),function(err){
-                    if (err) {
-                        console.log(err);
-                    }
-                });
+            fs.writeFileSync(apiResponsePath + 'First_Account_Tansaction_Details.json', JSON.stringify(res.body), function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
 
 
             res.body.some(element => {
@@ -245,14 +283,14 @@ describe('ParaBank Assignment', function () {
             var customerId = res.body.customerId;
             var accountType = res.body.type;
 
-            fs.writeFileSync(apiResponsePath+'Second_Account_Details.json',JSON.stringify(res.body),function(err){
+            fs.writeFileSync(apiResponsePath + 'Second_Account_Details.json', JSON.stringify(res.body), function (err) {
                 if (err) {
                     console.log(err);
                 }
             });
 
             expect(accountId).to.equal(parseInt(account));
-           
+
             expect(balance).to.equal((parseFloat(secondAccountBalance) + parseFloat(transferAmount)));
             expect(customerId).to.equal(12212);
             expect(accountType).to.equal("SAVINGS");
@@ -270,10 +308,10 @@ describe('ParaBank Assignment', function () {
                 .get(path)
                 .expect(200);
 
-            fs.writeFileSync(apiResponsePath+'Second_Account_Transaction_Details.json',JSON.stringify(res.body),function(err){
-                    if (err) {
-                        console.log(err);
-                    }
+            fs.writeFileSync(apiResponsePath + 'Second_Account_Transaction_Details.json', JSON.stringify(res.body), function (err) {
+                if (err) {
+                    console.log(err);
+                }
             });
             res.body.some(element => {
                 if (element.description.includes("Funds Transfer Received")) {
@@ -285,7 +323,7 @@ describe('ParaBank Assignment', function () {
 
             });
 
-  
+
 
         });
     });
