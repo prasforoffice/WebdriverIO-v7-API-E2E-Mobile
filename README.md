@@ -12,55 +12,53 @@ These tests are developed in Javascript with [WebDriverIO V7](http://webdriver.i
 -   [Applitools Eyes](https://info.applitools.com/ucY76)
 -   Spec reporter
 -   Allure report (screenshots on failure as well passed steps)
-
+-   SuperTest for API testing
+-   Mocha awesome report for API tests
 
 ## Requirements
 
 -   node >= 14.x.x - [how to install Node](https://nodejs.org/en/download/)
 -   npm >= 6.14.x - [how to install NPM](https://www.npmjs.com/get-npm)
+-   An Applitools account and the API KEY . In case its not available then a new account can be created from https://auth.applitools.com/users/register 
+-   APPLITOOLS KEY : Collect the API Key by clicking the  'My API Key' under the Applitools account section.Paste the Key in this filepath - test/testData/keys.yml
+
 
 ## Config Files
 
- WebdriverIO configuration is fully customizable, and different functions can be invoked before, during and after each test or test suite.  Config files can be found in the `./test/config/` directory and end with `*.conf.js`.  These can be called via the the cli.
+-  WebdriverIO configuration is fully customizable, and different functions can be invoked before, during and after each test or test suite.  Config files can be found in the `./test/config/` directory and end with `*.conf.js`.  These can be called via the the cli.
 
 ## Getting Started
 
 ### Install the dependencies:
-
-```bash
-npm install
-```
-
+        npm install
 
 ### Run e2e tests:
+        npm run test:e2e
 
-```bash
-npm run test:e2e
-```
+### Run visual regression test (Applitools):
+        npm run tests:vr
 
-### Run visual regression tests using Applitools:
+### Run API tests :
+        npm run tests:api
 
-```bash
-npm run tests:vr
-```
 
 ## Reports
 
 ### Spec
-
 Test reporter, that prints detailed results to console.
 
 ### Allure
-
 Run this command to generate the allure report in the directory `./test/reports/allure-report`:
 
-```bash
-npm run report:generate
-```
+
+        npm run report:generate
 
 You can run this command to start a server on your machine and open the allure report on the browser:
 
-```bash
-npm run report:open
-```
+        npm run report:open
+
+
+### Mocha Awesome Report
+Mocha HTML report with ApiTestReport.html would be generated in this path - test/reports/apiTest
+
 

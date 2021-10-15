@@ -6,7 +6,7 @@
   "scripts": {
     "test:e2e": "npx wdio run ./test/config/wdio.conf.js",
     "test:vr": "npx wdio run ./test/config/visualRegression.conf.js",
-    "test:api": "npx mocha --timeout 5000 --spec test/specs/api.test.js --reporter mochawesome  --reporter-options reportDir=test/reports/apiTest/,reportFilename=reportFile",
+    "test:api": "npx mocha --timeout 5000 --spec test/specs/api.test.js --reporter mochawesome  --reporter-options reportDir=test/reports/apiTest/,reportFilename=ApiTestReport",
     "report:generate": "npx allure generate --clean ./test/reports/allure-result/ -o ./test/reports/allure-report",
     "report:open": "npx allure open ./test/reports/allure-report"
   },
