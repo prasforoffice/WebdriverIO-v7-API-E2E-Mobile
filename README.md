@@ -37,10 +37,10 @@ These tests are developed in Javascript with [WebDriverIO V7](http://webdriver.i
         npm run test:e2e
 
 ### Run visual regression test (Applitools):
-        npm run tests:vr
+        npm run test:vr
 
 ### Run API tests :
-        npm run tests:api
+        npm run test:api
 
 
 ## Reports
