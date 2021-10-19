@@ -13,6 +13,7 @@ These tests are developed in Javascript with [WebDriverIO V7](http://webdriver.i
 -   Spec reporter
 -   Allure report (screenshots on failure as well passed steps)
 -   SuperTest for API testing
+-   Automatic capture and export of API response 
 -   Mocha awesome report for API tests
 
 ## Requirements
@@ -61,4 +62,6 @@ You can run this command to start a server on your machine and open the allure r
 ### Mocha Awesome Report
 Mocha HTML report with ApiTestReport.html would be generated in this path - test/reports/apiTest
 
+### Automatic API response export 
+Responses of API services captured can be found in it respective files under path test/reports/apiResponse
 
