@@ -42,6 +42,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
         if (browser.config.enableEyesLogs) {
             eyes.setLogHandler(new ConsoleLogHandler(true));
         }
+        eyes.setMatchLevel("Layout2");
         configuration = eyes.getConfiguration();
         configuration.setApiKey(Keys['APPLITOOLS'].API_KEY)
         configuration.setBatch(new BatchInfo('Visual Regression Testing - Assignment'))
