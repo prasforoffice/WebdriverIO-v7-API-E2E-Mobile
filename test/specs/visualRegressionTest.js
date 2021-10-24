@@ -1,15 +1,10 @@
 const {
     ClassicRunner,
-    RunnerOptions,
     Eyes,
     Target,
-    Configuration,
-    RectangleSize,
-    BatchInfo,
-    BrowserType,
-    DeviceName,
-    ScreenOrientation
+    BatchInfo
 } = require('@applitools/eyes-webdriverio');
+
 
 let eyes;
 let configuration;
@@ -36,8 +31,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
     var billPaymentData, secondAccountData, firstAccountData;
 
     before(async () => {
-        const runnerOptions = new RunnerOptions().testConcurrency(5);
-        runner = new ClassicRunner(runnerOptions);
+        runner = new ClassicRunner();
         eyes = new Eyes(runner);
         if (browser.config.enableEyesLogs) {
             eyes.setLogHandler(new ConsoleLogHandler(true));
