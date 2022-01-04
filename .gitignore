@@ -4,4 +4,6 @@
 /.DS_STORE
 /test/reports/allure-report/*
 test/reports/.DS_Store
+test/reports/apiResponse
+test/reports/apiTest
 
