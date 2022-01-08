@@ -58,14 +58,15 @@ exports.config = {
         maxInstances: 1,
         noReset: true,
         fullReset: false,
-        // deviceName: 'PIXEL_5_API_28', // pass the udid ode device
-        deviceName: 'PIXEL_4A_API_30', // pass the udid ode device
-        platformVersion: '11.0', // pass the platform version
+        // deviceName: 'PIXEL_5_API_28', 
+        deviceName: 'PIXEL_4A_API_30',
+        platformVersion: '11.0', 
         app:  '/Users/pkn/sandbox/axelerant/WebdriverIO-V6-appium-mocha-boilerplate/apps/Celsius Fahrenheit Converter_v1.0.1_apkpure.com.apk',
-        chromedriverExecutable: '/Users/pkn/sandbox/axelerant/resources/chromedrivers/chromedriver96'
-        // 'goog:chromeOptions': {
-        //     'w3c': false
-        // },
+        chromedriverExecutable: '/Users/pkn/sandbox/axelerant/resources/chromedrivers/chromedriver96',
+        // showChromedriverLog: 'true',
+        chromeOptions: {
+                'w3c': false
+        }
 
     }],
     //

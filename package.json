@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "npx wdio run ./test/config/wdio.conf.js",
-    "test:appium": "npx wdio run ./test/config/appium.conf.js",
-    "test:vr": "npx wdio run ./test/config/visualRegression.conf.js",
-    "test:api": "npx mocha --timeout 5000 --spec test/specs/api.test.js --reporter mochawesome  --reporter-options reportDir=test/reports/apiTest/,reportFilename=ApiTestReport",
-    "report:generate": "npx allure generate --clean ./test/reports/allure-result/ -o ./test/reports/allure-report",
-    "report:open": "npx allure open ./test/reports/allure-report"
+    "e2e": "npx wdio run ./test/config/wdio.conf.js",
+    "mobile": "npx wdio run ./test/config/appium.conf.js",
+    "vr": "npx wdio run ./test/config/visualRegression.conf.js",
+    "api": "npx mocha --timeout 5000 --spec test/specs/api.test.js --reporter mochawesome  --reporter-options reportDir=test/reports/apiTest/,reportFilename=ApiTestReport",
+    "rg": "npx allure generate --clean ./test/reports/allure-result/ -o ./test/reports/allure-report",
+    "ro": "npx allure open ./test/reports/allure-report"
   },
   "repository": {
     "type": "git",

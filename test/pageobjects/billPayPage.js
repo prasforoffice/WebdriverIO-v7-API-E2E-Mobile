@@ -1,5 +1,5 @@
 const Page = require('./page');
-
+const ActionHelper = require('./../support/actionHelpers');
 /**
  * sub page containing specific selectors and methods for a specific page
  */
@@ -46,8 +46,9 @@ class BillPayPage extends Page {
         await this.amountTextbox.setValue(testData.amount);
 
         (fromAccountNumber) ? await this.fromAccountList.selectByAttribute('value', fromAccountNumber) : await this.fromAccountList.selectByAttribute('value', 0);
-
-        await this.submitButton.click();
+        await ActionHelper.pressKeyTab();
+        await ActionHelper.pressKeyEnter();
+        // await this.submitButton.click();
         await expect(this.billPaymentCompleteTitle).toBeExisting();
     }
 
