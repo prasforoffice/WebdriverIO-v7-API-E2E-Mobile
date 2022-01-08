@@ -6,4 +6,5 @@
 test/reports/.DS_Store
 test/reports/apiResponse
 test/reports/apiTest
+test/reports/allure-result
 

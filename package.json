@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:e2e": "npx wdio run ./test/config/wdio.conf.js",
+    "test:appium": "npx wdio run ./test/config/appium.conf.js",
     "test:vr": "npx wdio run ./test/config/visualRegression.conf.js",
     "test:api": "npx mocha --timeout 5000 --spec test/specs/api.test.js --reporter mochawesome  --reporter-options reportDir=test/reports/apiTest/,reportFilename=ApiTestReport",
     "report:generate": "npx allure generate --clean ./test/reports/allure-result/ -o ./test/reports/allure-report",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@applitools/eyes-webdriverio": "^5.32.9",
     "@wdio/allure-reporter": "^7.14.1",
+    "@wdio/appium-service": "^7.16.11",
     "@wdio/cli": "^7.14.1",
     "@wdio/firefox-profile-service": "^7.14.1",
     "@wdio/local-runner": "^7.14.1",
@@ -31,7 +33,7 @@
     "@wdio/spec-reporter": "^7.14.1",
     "allure-commandline": "^2.13.8",
     "chai": "^4.3.4",
-    "chromedriver": "^94.0.0",
+    "chromedriver": "^96.0.0",
     "fs-extra": "^10.0.0",
     "js-yaml": "^4.1.0",
     "mochawesome": "^6.3.1",

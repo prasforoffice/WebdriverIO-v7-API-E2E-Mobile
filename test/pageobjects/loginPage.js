@@ -13,6 +13,9 @@ class LoginPage extends Page {
     get inputUsername() { return $('[name="username"]') }
     get inputPassword() { return $('[name="password"]') }
     get btnSubmit() { return $('[value="Log In"]') }
+    // get inputUsername() { return $('#username') }
+    // get inputPassword() { return $('#password') }
+    // get btnSubmit() { return $('#value="Log In"') }
 
 
 
