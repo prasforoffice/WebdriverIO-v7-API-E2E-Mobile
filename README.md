@@ -1,4 +1,4 @@
-# assignmentsAB
+#  WebdriverIO-v7-API-E2E-Mobile
 
 This is an E2E integration tests project for testing ParaBank application (https://parabank.parasoft.com/parabank/index.htm).In this project user interacts with Parabank web application and creates new accounts, carries out Bill payment transactions and perfroms relevant validations across screens.
 
@@ -34,13 +34,16 @@ These tests are developed in Javascript with [WebDriverIO V7](http://webdriver.i
         npm install
 
 ### Run e2e tests:
-        npm run test:e2e
+        npm run e2e
+
+### Run mobile tests:
+        npm run mobile
 
 ### Run visual regression test (Applitools):
-        npm run test:vr
+        npm run vr
 
 ### Run API tests :
-        npm run test:api
+        npm run api
 
 
 ## Reports
@@ -52,11 +55,11 @@ Test reporter, that prints detailed results to console.
 Run this command to generate the allure report in the directory `./test/reports/allure-report`:
 
 
-        npm run report:generate
+        npm run rg
 
 You can run this command to start a server on your machine and open the allure report on the browser:
 
-        npm run report:open
+        npm run ro
 
 
 ### Mocha Awesome Report
