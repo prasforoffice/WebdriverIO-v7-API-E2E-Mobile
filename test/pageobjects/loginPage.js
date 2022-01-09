@@ -1,4 +1,5 @@
 const Page = require('./page');
+const ActionHelper = require('./../support/actionHelpers');
 
 /**
  * sub page containing specific selectors and methods for a specific page
@@ -14,8 +15,6 @@ class LoginPage extends Page {
     get inputPassword() { return $('[name="password"]') }
     get btnSubmit() { return $('[value="Log In"]') }
 
-
-
     /**
      * Login using username and password
      * @param {*} username 
@@ -26,7 +25,10 @@ class LoginPage extends Page {
         this.inputUsername.waitForExist();
         await this.inputUsername.setValue(username);
         await this.inputPassword.setValue(password);
-        await this.btnSubmit.click();
+        await ActionHelper.pressKeyTab();
+        
+        // await this.btnSubmit.click();
+        await ActionHelper.pressKeyEnter();
     }
 
     /**
@@ -36,6 +38,8 @@ class LoginPage extends Page {
     open() {
         return super.open('parabank/index.htm');
     }
+
+
 }
 
 module.exports = new LoginPage();

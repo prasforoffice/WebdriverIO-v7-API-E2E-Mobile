@@ -33,7 +33,7 @@ describe('Verification of opening two new accounts for both account types - CHEC
         await expect(AccountServicesPage.welcomeText).toHaveTextContaining(Labels.WELCOME_TEXT);
     });
 
-    /* Section for creating 1st account */
+    // /* Section for creating 1st account */
 
     it('Verify user is able to launch,fill and submit New Account form to create 1st account', async () => {
         firstAccountData = TestData['FirstAccountData'];
@@ -83,33 +83,33 @@ describe('Verification of opening two new accounts for both account types - CHEC
     });
 
 
-    it('Validate the Bill payment transactions across two new accounts', async () => {
+    // it('Validate the Bill payment transactions across two new accounts', async () => {
 
-        /* First Account - Donor Account Validation */
-        await AccountServicesPage.clickAccountsOverviewLink();
-        await AccountsOverviewPage.openAccountFromOverviewPage(firstAccountNumber);
-        await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
-        var newBalance = parseFloat(firstAccountBalance.replace(/[^\d\.]/, '')) - parseFloat(billPaymentData.amount);
-        newBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newBalance);
-        var newAvlBalance = parseFloat(firstAccountAvlBalance.replace(/[^\d\.]/, '')) - parseFloat(billPaymentData.amount);     
-        if(newAvlBalance < 0) newAvlBalance=0  // Avaialble balance = 0 for negative balance
-        newAvlBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newAvlBalance);
-        await AccountDetailsPage.validateAccountBalance(newBalance,newAvlBalance);
-
-
-        /* Second Account - Reciever Account Validation */
-        await AccountServicesPage.clickAccountsOverviewLink();
-        await AccountsOverviewPage.openAccountFromOverviewPage(secondAccountNumber);
-        await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
-        var newAccBalance = parseFloat(secondAccountBalance.replace(/[^\d\.]/, '')) + parseFloat(billPaymentData.amount);
-        var newAccAvlBalance = parseFloat(secondAccountAvlBalance.replace(/[^\d\.]/, '')) + parseFloat(billPaymentData.amount);
-        if (newAccAvlBalance < 0) newAccAvlBalance = 0  // Avaialble balance = 0 for negative balance
-        newAccBalance= AccountDetailsPage.convertNumberToCurrencyAmount(newAccBalance);
-        newAccAvlBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newAccAvlBalance);
-        await AccountDetailsPage.validateAccountBalance(newAccBalance,newAccAvlBalance);
+    //     /* First Account - Donor Account Validation */
+    //     await AccountServicesPage.clickAccountsOverviewLink();
+    //     await AccountsOverviewPage.openAccountFromOverviewPage(firstAccountNumber);
+    //     await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
+    //     var newBalance = parseFloat(firstAccountBalance.replace(/[^\d\.]/, '')) - parseFloat(billPaymentData.amount);
+    //     newBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newBalance);
+    //     var newAvlBalance = parseFloat(firstAccountAvlBalance.replace(/[^\d\.]/, '')) - parseFloat(billPaymentData.amount);     
+    //     if(newAvlBalance < 0) newAvlBalance=0  // Avaialble balance = 0 for negative balance
+    //     newAvlBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newAvlBalance);
+    //     await AccountDetailsPage.validateAccountBalance(newBalance,newAvlBalance);
 
 
-    });
+    //     /* Second Account - Reciever Account Validation */
+    //     await AccountServicesPage.clickAccountsOverviewLink();
+    //     await AccountsOverviewPage.openAccountFromOverviewPage(secondAccountNumber);
+    //     await AccountDetailsPage.checkIfAccountDetailsScreenLoaded();
+    //     var newAccBalance = parseFloat(secondAccountBalance.replace(/[^\d\.]/, '')) + parseFloat(billPaymentData.amount);
+    //     var newAccAvlBalance = parseFloat(secondAccountAvlBalance.replace(/[^\d\.]/, '')) + parseFloat(billPaymentData.amount);
+    //     if (newAccAvlBalance < 0) newAccAvlBalance = 0  // Avaialble balance = 0 for negative balance
+    //     newAccBalance= AccountDetailsPage.convertNumberToCurrencyAmount(newAccBalance);
+    //     newAccAvlBalance = AccountDetailsPage.convertNumberToCurrencyAmount(newAccAvlBalance);
+    //     await AccountDetailsPage.validateAccountBalance(newAccBalance,newAccAvlBalance);
+
+
+    // });
 
 
 

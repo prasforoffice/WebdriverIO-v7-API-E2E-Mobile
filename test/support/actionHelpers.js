@@ -1,8 +1,4 @@
-/**
-* main page object containing all methods, selectors and functionality
-* that is shared across all page objects
-*/
-module.exports = class Page {
+module.exports = class ActionHelpers {
     
     
     /**
@@ -13,5 +9,17 @@ module.exports = class Page {
         // return browser.url(`https://the-internet.herokuapp.com/${path}`)
         return browser.url(`/${path}`)
     }
+
+    static pressKeyTab(){
+        browser.keys("Tab");
+        return browser.pause(1000);
+    }
+    static pressKeyEnter(){
+        browser.keys("Enter");
+        return browser.pause(1000);
+    }
+
+
+   
 
 }
